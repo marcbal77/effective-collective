@@ -61,6 +61,28 @@ const Home: NextPage = () => {
                 tab.
               </p>
             </div>
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <div className="text-gray-700 flex flex-col gap-4">
+                <button
+                  className="btn btn-secondary btn-sm px-2 rounded-full"
+                  onClick={() => console.log("Federal button clicked")}
+                >
+                  Federal
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm px-2 rounded-full"
+                  onClick={() => console.log("State button clicked")}
+                >
+                  State
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm px-2 rounded-full"
+                  onClick={() => console.log("Local button clicked")}
+                >
+                  Local/DAO
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
