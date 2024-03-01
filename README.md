@@ -1,6 +1,6 @@
-**Effective Collective** is a user-friendly, Web3 solution, for voicing and voting within organizations and governments. Our project is paving a secure path for decentralized democracy by removing the need for antiquated voting systems and representatives whose interests are aligned with deep pockets, instead of real-time desires of their constituents. **Effective Collective** puts the power of the voice and the vote in YOUR pocket.
+**Effective Collective** is a user-friendly, Web3 solution, for _voicing and voting_ within organizations and governments. Our project is paving a secure path for decentralized democracy by removing the need for antiquated voting systems and representatives whose interests are aligned with deep pockets, instead of real-time desires of their constituents. Put the power of the voice and the vote in YOUR pocket.
 
-The MVP is deployed on the **Oasis Sapphire** blockchain and facilitates voting for small organizations, with first adopters being decentralized autonomous organizations (DAOs). We have integrated **Polygon ID** to securely and privately manage user verification. Future iterations of **Effective Collective** will facilitate **community discourse**, as well as scaling to **local, state, provincial, and federal governments**.
+The MVP is deployed on the **Oasis Sapphire** blockchain and facilitates voting for small organizations, with first adopters being decentralized autonomous organizations (DAOs). We have integrated **Polygon ID** to securely and privately manage user verification. Future iterations of Effective Collective will facilitate _community discourse_, as well as scaling to _local, state, provincial, and federal governments_.
 
 **BOUNTIES**
 
