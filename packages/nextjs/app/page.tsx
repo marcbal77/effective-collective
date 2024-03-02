@@ -76,12 +76,7 @@ const Home: NextPage = () => {
                 >
                   State
                 </button>
-                <button
-                  className="btn btn-secondary btn-sm px-2 rounded-full"
-                  onClick={() => console.log("Local button clicked")}
-                >
-                  <NavigationButton destination="/page1" label="Local/DAO" />
-                </button>
+                <NavigationButton destination="/page1" label="Local/DAO" />
               </div>
             </div>
           </div>
