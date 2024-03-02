@@ -36,4 +36,4 @@ Please note: Many features are marked for the future because all four members of
 
 \> Video demonstration of the working project
 
-Thank you for helping us build a more private, secure, and intelligent system that supports modern democracy :)
+Thank you for helping us build a more private, secure, and intelligent system that supports modern democracy :) 
