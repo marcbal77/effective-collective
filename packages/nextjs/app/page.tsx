@@ -1,18 +1,20 @@
 "use client";
 
-import DistrictManager from "../../hardhat/deployments/sapphire-testnet/DistrictManager.json"; 
 import Link from "next/link";
+import DistrictManager from "../../hardhat/deployments/sapphire-testnet/DistrictManager.json";
+import { readContract } from "@wagmi/core";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import NavigationButton from "~~/components/NavigationButton";
 import { Address } from "~~/components/scaffold-eth";
-import { readContract } from '@wagmi/core';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getPing() {
   const hello = await readContract({
     address: DistrictManager.address,
     abi: DistrictManager.abi,
-    functionName: 'ping',
+    functionName: "ping",
   });
   return hello;
 }
@@ -85,19 +87,7 @@ const Home: NextPage = () => {
                 >
                   State
                 </button>
-                <button
-                  className="btn btn-secondary btn-sm px-2 rounded-full"
-                  onClick={() => console.log("Local button clicked")}
-                >
-                  Local/DAO
-                </button>
-                <button
-                  className="btn btn-secondary btn-sm px-2 rounded-full"
-                  onClick={async () => console.log(await getPing())}
-                >
-                  LocalTest
-                </button>
-            
+                <NavigationButton destination="/page1" label="Local/DAO" />
               </div>
             </div>
           </div>

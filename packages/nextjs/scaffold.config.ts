@@ -1,5 +1,5 @@
+import { OasisSapphireTestnet } from "./services/web3/chain";
 import * as chains from "viem/chains";
-import { OasisSapphireTestnet } from "./services/web3/chain"
 
 export type ScaffoldConfig = {
   targetNetworks: readonly chains.Chain[];
