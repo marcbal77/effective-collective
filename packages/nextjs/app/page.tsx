@@ -1,12 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import DistrictManager from "../../hardhat/deployments/sapphire-testnet/DistrictManager.json";
+import { readContract } from "@wagmi/core";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import NavigationButton from "~~/components/NavigationButton";
 import { Address } from "~~/components/scaffold-eth";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function getPing() {
+  const hello = await readContract({
+    address: DistrictManager.address,
+    abi: DistrictManager.abi,
+    functionName: "ping",
+  });
+  return hello;
+}
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
