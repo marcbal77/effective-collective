@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Proposol.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.17;\n\n// this is set up specifically for yes/no proposals\n// Note: should we have the opportunity/time, it would make a lot of sense to have a parent Proposal contract and then other contract types\n// that inherit from Proposal (they wouldnt be very different from one another, after all)\ncontract Proposal {\n    /* Following properties are variables that would be set by the Proposal Management contract (should we end up coding that) */\n    // for the record, we could pass them into the constructor when deploying the contracts, as well, but saving effort for now\n   \n    // how many votes must be in favor for the vote to pass\n    uint8 threshhold;\n\n    // times are done in uint form as number of seconds since 1-1-1970\n    uint deadline;\n\n    /* Properties to track votes */\n\n    // the record of IF someone has voted. Not what their vote was (that, actually, does not need to even be recorded)\n    mapping(address => bool) vote_record;\n\n    // for the yes/no type of vote, only two options: true (yes) or false (no)\n    // other types of votes would likely need names to differentiate (or something else to pass to the callback?)\n    mapping(bool => uint8) vote_count;\n\n    mapping(address=>bool) membership;\n\n    // https://ethereum.stackexchange.com/questions/43751/does-solidity-support-passing-an-array-of-strings-to-a-contracts-constructor-ye\n    constructor(uint _deadline, uint8 _threshhold) {\n        deadline = _deadline;\n        threshhold = _threshhold;\n        membership[0x142Ab00310aaCB3E27bf06c5cB9eEbf6116b0E51] = true;\n    }\n\n    function recordVote (bool vote) external {\n        //make sure the sender is allowed to vote\n        require(membership[msg.sender]);\n        \n        //make sure the sender has not already voted\n        require(!vote_record[msg.sender]);\n\n        //ensure deadline hasn't passed\n        require(block.timestamp <= deadline);\n\n        //record the sender's vote\n        vote_count[vote] = vote_count[vote] + 1;\n\n        //record that they have voted\n        vote_record[msg.sender] = true;\n\n        // TODO: check threshhold and act?\n    }\n\n    function hasVoted() external view returns (bool) {\n        return vote_record[msg.sender];\n    }\n}\n\ncontract DistrictManager {\n    struct Vote {\n        string name;\n        string description;\n        address proposal;\n    }\n\n    Vote[] votes;\n\n    uint8 member_count;\n\n    constructor(address _membership) {\n       // membership = MemberRecord(_membership);\n       // member_count = membership.getCount();\n        createProposal(\"Change website color to blue\", \n                        \"The background is awful; let's make it better\",\n                        block.timestamp + 1209600,\n                        0);\n\n        // could make more\n    }\n\n    function createProposal (string memory _name, string memory _description, uint _deadline, uint8 _threshhold) internal {\n        uint threshhold = _threshhold == 0 ? member_count/2 : _threshhold;\n\n        Vote memory newVote;\n        newVote.name = _name;\n        newVote.description = _description;\n        newVote.proposal = address(new Proposal(_deadline, _threshhold));\n        votes.push(newVote);\n    } \n\n    function getVotes() external view returns (Vote[] memory){\n        Vote[] memory votes_ = new Vote[](votes.length);\n        for (uint i = 0; i < votes.length; i++) {\n            Vote storage vote_ = votes[i];\n            votes_[i] = vote_;\n        }\n      return votes_;\n    }\n\n    function ping() external returns (address) {\n        return address(this);\n    }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

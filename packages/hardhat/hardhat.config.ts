@@ -30,7 +30,7 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  defaultNetwork: "localhost",
+  defaultNetwork: "sapphire-testnet",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -38,6 +38,11 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
+    'sapphire-testnet': {
+      url: "https://testnet.sapphire.oasis.dev",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      chainId: 0x5aff
+    },
     // View the networks that are pre-configured.
     // If the network you are looking for is not here you can add new network settings
     hardhat: {
