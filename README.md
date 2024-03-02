@@ -34,6 +34,6 @@ The MVP will be deployed on the **Oasis Sapphire** blockchain and facilitate vot
 
 Please note: Many features are marked for the future because all four members of our team were committed to Camp BUIDL and had a limited time for the group project.
 
-\> Video demonstration of the working project
+[Click here for video demonstration](https://www.loom.com/share/8838e13703a84574bbe1c60c318e6b65?sid=0715f7f4-d117-41e6-8301-9b2c498935d4)
 
-Thank you for helping us build a more private, secure, and intelligent system that supports modern democracy :) 
+Thank you for helping us BUIDL a more private, secure, and intelligent system that supports modern democracy :)
