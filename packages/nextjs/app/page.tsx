@@ -7,8 +7,8 @@ import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 // import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import NavigationButton from "~~/components/NavigationButton";
-import { Address } from "~~/components/scaffold-eth";
 import Votes from "~~/components/VotingDisplay";
+import { Address } from "~~/components/scaffold-eth";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getVotes() {
@@ -36,29 +36,30 @@ const Home: NextPage = () => {
             <Address address={connectedAddress} />
           </div>
         </div>
-      {connectedAddress &&
-       <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <div className="text-gray-700 flex flex-col gap-4">
-                <button
-                  className="btn btn-secondary btn-sm px-2 rounded-full"
-                  onClick={() => console.log("Federal button clicked")}
-                >
-                  Federal
-                </button>
-                <button
-                  className="btn btn-secondary btn-sm px-2 rounded-full"
-                  onClick={() => console.log("State button clicked")}
-                >
-                  State
-                </button>
-                <NavigationButton destination="/page1" label="Local/DAO" />
-                <Votes/>
+        {connectedAddress && (
+          <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+            <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+              <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+                <div className="text-gray-700 flex flex-col gap-4">
+                  <button
+                    className="btn btn-secondary btn-sm px-2 rounded-full"
+                    onClick={() => console.log("Federal button clicked")}
+                  >
+                    Federal
+                  </button>
+                  <NavigationButton destination="/page1" label="State" />
+                  <button
+                    className="btn btn-secondary btn-sm px-2 rounded-full"
+                    onClick={() => console.log("Local/DAO button clicked")}
+                  >
+                    Local/DAO
+                  </button>
+                  <Votes />
+                </div>
               </div>
             </div>
           </div>
-        </div> }
+        )}
       </div>
     </>
   );
