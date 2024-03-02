@@ -33,7 +33,7 @@ const deployDistrictManager: DeployFunction = async function (hre: HardhatRuntim
         // Get the deployed contract to interact with it after deploying.
         const districtManager = await hre.ethers.getContract<Contract>("DistrictManager", deployer);
         await districtManager.restartDemo(memberAddresses);
-        console.log("Demo ready!", await districtManager.getProposals());
+        console.log("Demo ready!", await districtManager.getVotes());
     }
 
 

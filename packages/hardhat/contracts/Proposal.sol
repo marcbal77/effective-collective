@@ -7,28 +7,10 @@ interface IDistrictManager {
     function checkMembership(address _addr) external view returns (bool);
 }
 
-abstract contract Vote {
+contract Proposal {
     // times are done in uint form as number of seconds since 1-1-1970
     uint deadline;
     IDistrictManager district;
-
-    constructor(uint _deadline, address _district) {
-        deadline = _deadline;
-        district = IDistrictManager(_district);
-    }
-
-    function verifyVote() internal view {
-        //make sure the sender is allowed to vote
-        require(district.checkMembership(msg.sender));
-
-        //ensure deadline hasn't passed
-        require(block.timestamp <= deadline);
-    }
-
-    function hasVoted(address addr_) external virtual returns (bool) { }
-}
-
-contract Proposal is Vote {
     // how many votes must be in favor for the vote to pass
     uint8 threshhold;
     // the record of IF someone has voted. (Not what their vote was)
@@ -36,13 +18,18 @@ contract Proposal is Vote {
     // for the Propsal type of vote, only two options: true (yes) or false (no)
     mapping(bool => uint8) private vote_count;
     
-    constructor(uint _deadline, address _district, uint8 _threshhold) 
-    Vote(_deadline, _district){
+    constructor(uint _deadline, address _district, uint8 _threshhold) {
         threshhold = _threshhold;
+        deadline = _deadline;
+        district = IDistrictManager(_district);
     }
 
     function recordVote (bool vote) external returns (bool) {
-        verifyVote();
+        //make sure the sender is allowed to vote
+        require(district.checkMembership(msg.sender));
+
+        //ensure deadline hasn't passed
+        require(block.timestamp <= deadline);
 
         //make sure the sender has not already voted
         require(!vote_record[msg.sender]);
@@ -56,11 +43,10 @@ contract Proposal is Vote {
         return (vote_count[vote] >= threshhold);
     }
 
-     function hasVoted(address addr_) external view override virtual returns (bool) {
+    function hasVoted(address addr_) external view returns (bool) {
         return vote_record[addr_];
     }
 }
-
 
 contract DistrictManager is IDistrictManager {
     struct VoteInfo {
@@ -115,12 +101,12 @@ contract DistrictManager is IDistrictManager {
         votes.push(newVote);
     } 
 
-    function getVotes() external returns (VoteInfo[] memory){
+    function getVotes() external view returns (VoteInfo[] memory){
         VoteInfo[] memory votes_ = new VoteInfo[](votes.length);
         for (uint8 i = 0; i < votes.length; i++) {
             VoteInfo storage vote_ = votes[i];
             votes_[i] = vote_;
-            votes_[i].hasVoted = ((Vote)(vote_.proposal)).hasVoted(msg.sender);
+            votes_[i].hasVoted = ((Proposal)(vote_.proposal)).hasVoted(msg.sender);
         }
         return votes_;
     }
