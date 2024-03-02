@@ -1,11 +1,21 @@
 "use client";
 
+import DistrictManager from "../../hardhat/deployments/sapphire-testnet/DistrictManager.json"; 
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
+import { readContract } from '@wagmi/core';
 
+async function getPing() {
+  const hello = await readContract({
+    address: DistrictManager.address,
+    abi: DistrictManager.abi,
+    functionName: 'ping',
+  });
+  return hello;
+}
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
@@ -81,6 +91,13 @@ const Home: NextPage = () => {
                 >
                   Local/DAO
                 </button>
+                <button
+                  className="btn btn-secondary btn-sm px-2 rounded-full"
+                  onClick={async () => console.log(await getPing())}
+                >
+                  LocalTest
+                </button>
+            
               </div>
             </div>
           </div>
