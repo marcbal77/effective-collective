@@ -1,12 +1,11 @@
 **Effective Collective** is a user-friendly, Web3 solution, for _voicing and voting_ within organizations and governments. Our project is paving a secure path for decentralized democracy by removing the need for antiquated voting systems and representatives whose interests are aligned with deep pockets, instead of the real-time desires of their constituents. Put the power of the voice and the vote in YOUR pocket.
 
-The MVP is deployed on the **Oasis Sapphire** blockchain and facilitates voting for small organizations, with first adopters being decentralized autonomous organizations (DAOs). Future iterations of Effective Collective will facilitate _community discourse_, as well as scaling to _local, state, provincial, and federal governments_.
+The MVP will be deployed on the **Oasis Sapphire** blockchain and facilitate voting for small organizations, with first adopters being decentralized autonomous organizations (DAOs). Future iterations of Effective Collective will facilitate _community discourse_, as well as scaling to _local, state, provincial, and federal governments_.
 
 **BOUNTIES**
 
 - [**Oasis Protocol**](https://ethdenver2024.devfolio.co/prizes?partner=Oasis+Protocol)
   - Launch MVP on Testnet or Mainet. Deploy smart-contracts on Oasis Sapphire that use Sapphire specific features as the basis for the project's unique value proposition.
-  - Feature Integration. Use the Oasis Privacy Layer to add privacy to a new or existing dApp, to enhance data security and protect users.
 
 **TECH STACK & FEATURES**
 
@@ -34,8 +33,6 @@ The MVP is deployed on the **Oasis Sapphire** blockchain and facilitates voting 
 10. Users can collect their voting badges for each organization, or proposal.
 
 Please note: Many features are marked for the future because all four members of our team were committed to Camp BUIDL and had a limited time for the group project.
-
-**HOW TO INSTALL & RUN**
 
 \> Video demonstration of the working project
 
