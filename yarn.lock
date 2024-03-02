@@ -1632,6 +1632,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oasisprotocol/deoxysii@npm:0.0.5":
+  version: 0.0.5
+  resolution: "@oasisprotocol/deoxysii@npm:0.0.5"
+  dependencies:
+    bsaes: 0.0.2
+    uint32: ^0.2.1
+  checksum: 71d8eee7b32919c6cfb19504a2af5847ba0ff692e11357492352c80fba68ffc2e4598b3811fa5336822b4909b8c7fa53e5e8a74432d3e300f90fb2d20e62d80e
+  languageName: node
+  linkType: hard
+
+"@oasisprotocol/sapphire-hardhat@npm:^2.19.4":
+  version: 2.19.4
+  resolution: "@oasisprotocol/sapphire-hardhat@npm:2.19.4"
+  dependencies:
+    "@oasisprotocol/sapphire-paratime": ^1.3.0
+  peerDependencies:
+    hardhat: 2.x
+  checksum: 151a410ceba35614848bf26044b827084d92e3eacf192efd7f50cb80b530b91c6adc6c6bf13b39a1a57bbc838132347624528c84340dcf977d091d71341ac816
+  languageName: node
+  linkType: hard
+
+"@oasisprotocol/sapphire-paratime@npm:^1.3.0":
+  version: 1.3.2
+  resolution: "@oasisprotocol/sapphire-paratime@npm:1.3.2"
+  dependencies:
+    "@noble/hashes": 1.3.2
+    "@oasisprotocol/deoxysii": 0.0.5
+    cborg: 1.10.2
+    ethers: 6.10.0
+    tweetnacl: 1.0.3
+    type-fest: 2.19.0
+  checksum: de721663cf9025bb16faeb934d898916a8393ceff73decbd4eaccfb8eb6a54fcf07c7348d9d7b32d5a476dc44c37b57c3b48c382b2e6cc9d637dc15467ca3f76
+  languageName: node
+  linkType: hard
+
 "@openzeppelin/contracts@npm:~4.8.1":
   version: 4.8.3
   resolution: "@openzeppelin/contracts@npm:4.8.3"
@@ -4698,6 +4733,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bsaes@npm:0.0.2":
+  version: 0.0.2
+  resolution: "bsaes@npm:0.0.2"
+  dependencies:
+    uint32: ^0.2.1
+  checksum: d2d7b52c9222de355e57f732dbb66be4ca6428f2402bc0717ab1ebc03577e83c2ff0e6cb43903e55d2f6678016f7f5d32e5b748796cdb7e160d7f437db232a14
+  languageName: node
+  linkType: hard
+
 "buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
@@ -4847,6 +4891,15 @@ __metadata:
   dependencies:
     nofilter: ^3.1.0
   checksum: a90338435dc7b45cc01461af979e3bb6ddd4f2a08584c437586039cd5f2235014c06e49d664295debbfb3514d87b2f06728092ab6aa6175e2e85e9cd7dc0c1fd
+  languageName: node
+  linkType: hard
+
+"cborg@npm:1.10.2":
+  version: 1.10.2
+  resolution: "cborg@npm:1.10.2"
+  bin:
+    cborg: cli.js
+  checksum: 7743a8f125046ac27fb371c4ea18af54fbe853f7210f1ffacc6504a79566480c39d52ac4fbc1a5b5155e27b13c3b58955dc29db1bf20c4d651549d55fec2fa7f
   languageName: node
   linkType: hard
 
@@ -6883,6 +6936,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ethers@npm:6.10.0, ethers@npm:~6.10.0":
+  version: 6.10.0
+  resolution: "ethers@npm:6.10.0"
+  dependencies:
+    "@adraffy/ens-normalize": 1.10.0
+    "@noble/curves": 1.2.0
+    "@noble/hashes": 1.3.2
+    "@types/node": 18.15.13
+    aes-js: 4.0.0-beta.5
+    tslib: 2.4.0
+    ws: 8.5.0
+  checksum: 6f0a834b9b9bb31eceda9ac0a841b1061d5e2eefb5d0b042013db1c5abf48fa993ec0a602ae4c64d9e259d495fc01c100cf61f17e928e09eb43f0c7860f2a317
+  languageName: node
+  linkType: hard
+
 "ethers@npm:^5.7.0, ethers@npm:^5.7.1, ethers@npm:^5.7.2":
   version: 5.7.2
   resolution: "ethers@npm:5.7.2"
@@ -6918,21 +6986,6 @@ __metadata:
     "@ethersproject/web": 5.7.1
     "@ethersproject/wordlists": 5.7.0
   checksum: b7c08cf3e257185a7946117dbbf764433b7ba0e77c27298dec6088b3bc871aff711462b0621930c56880ff0a7ceb8b1d3a361ffa259f93377b48e34107f62553
-  languageName: node
-  linkType: hard
-
-"ethers@npm:~6.10.0":
-  version: 6.10.0
-  resolution: "ethers@npm:6.10.0"
-  dependencies:
-    "@adraffy/ens-normalize": 1.10.0
-    "@noble/curves": 1.2.0
-    "@noble/hashes": 1.3.2
-    "@types/node": 18.15.13
-    aes-js: 4.0.0-beta.5
-    tslib: 2.4.0
-    ws: 8.5.0
-  checksum: 6f0a834b9b9bb31eceda9ac0a841b1061d5e2eefb5d0b042013db1c5abf48fa993ec0a602ae4c64d9e259d495fc01c100cf61f17e928e09eb43f0c7860f2a317
   languageName: node
   linkType: hard
 
@@ -11829,6 +11882,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
+    "@oasisprotocol/sapphire-hardhat": ^2.19.4
     husky: ~8.0.3
     lint-staged: ~13.2.2
   languageName: unknown
@@ -13046,7 +13100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tweetnacl@npm:^1.0.3":
+"tweetnacl@npm:1.0.3, tweetnacl@npm:^1.0.3":
   version: 1.0.3
   resolution: "tweetnacl@npm:1.0.3"
   checksum: e4a57cac188f0c53f24c7a33279e223618a2bfb5fea426231991652a13247bea06b081fd745d71291fcae0f4428d29beba1b984b1f1ce6f66b06a6d1ab90645c
@@ -13075,6 +13129,13 @@ __metadata:
   version: 4.0.8
   resolution: "type-detect@npm:4.0.8"
   checksum: 62b5628bff67c0eb0b66afa371bd73e230399a8d2ad30d852716efcc4656a7516904570cd8631a49a3ce57c10225adf5d0cbdcb47f6b0255fe6557c453925a15
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:2.19.0":
+  version: 2.19.0
+  resolution: "type-fest@npm:2.19.0"
+  checksum: a4ef07ece297c9fba78fc1bd6d85dff4472fe043ede98bd4710d2615d15776902b595abf62bd78339ed6278f021235fb28a96361f8be86ed754f778973a0d278
   languageName: node
   linkType: hard
 
@@ -13277,6 +13338,13 @@ __metadata:
   version: 1.0.0
   resolution: "uid-promise@npm:1.0.0"
   checksum: 8769e9581a4ae88b2b43225a3f31730d1075935359df44bfd47618e0f7c8a83cd49c127916fa73f62bfaabcc800d2b3f334af9a02615123d4349372326792ede
+  languageName: node
+  linkType: hard
+
+"uint32@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "uint32@npm:0.2.1"
+  checksum: 9a0f16453e00e877adc49976d333096395ff805548234458dc8e34bd158d1e7e3b6e5aeca7b0aec39227f8f79c6d8c91e8f6855bae3b3ac8e8459fcd878a5bd4
   languageName: node
   linkType: hard
 

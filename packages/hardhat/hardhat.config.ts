@@ -1,3 +1,4 @@
+import "@oasisprotocol/sapphire-hardhat";
 import * as dotenv from "dotenv";
 dotenv.config();
 import { HardhatUserConfig } from "hardhat/config";

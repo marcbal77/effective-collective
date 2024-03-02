@@ -1,63 +1,69 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
+// So that the Votes can check membership of the sender
+// membership is under the district's jurisdiction
 interface IDistrictManager {
     function checkMembership(address _addr) external view returns (bool);
 }
-// this is set up specifically for yes/no proposals
-// Note: should we have the opportunity/time, it would make a lot of sense to have a parent Proposal contract and then other contract types
-// that inherit from Proposal (they wouldnt be very different from one another, after all)
-contract Proposal {
-    /* Following properties are variables that would be set by the Proposal Management contract (should we end up coding that) */
-    // for the record, we could pass them into the constructor when deploying the contracts, as well, but saving effort for now
-   
-    // how many votes must be in favor for the vote to pass
-    uint8 threshhold;
 
+abstract contract Vote {
     // times are done in uint form as number of seconds since 1-1-1970
     uint deadline;
-
-    /* Properties to track votes */
-
-    // the record of IF someone has voted. (Not what their vote was)
-    mapping(address => bool) vote_record;
-
-    // for the yes/no type of vote, only two options: true (yes) or false (no)
-    // other types of votes would likely need names to differentiate
-    mapping(bool => uint8) vote_count;
-
     IDistrictManager district;
 
-    constructor(uint _deadline, uint8 _threshhold, address _district) {
+    constructor(uint _deadline, address _district) {
         deadline = _deadline;
-        threshhold = _threshhold;
         district = IDistrictManager(_district);
     }
 
-    function recordVote (bool vote) external {
+    function verifyVote() internal view {
         //make sure the sender is allowed to vote
         require(district.checkMembership(msg.sender));
-        
-        //make sure the sender has not already voted
-        require(!vote_record[msg.sender]);
 
         //ensure deadline hasn't passed
         require(block.timestamp <= deadline);
+    }
+
+    function hasVoted(address addr_) external virtual returns (bool) { }
+}
+
+contract Proposal is Vote {
+    // how many votes must be in favor for the vote to pass
+    uint8 threshhold;
+    // the record of IF someone has voted. (Not what their vote was)
+    mapping(address => bool) private vote_record;
+    // for the Propsal type of vote, only two options: true (yes) or false (no)
+    mapping(bool => uint8) private vote_count;
+    
+    constructor(uint _deadline, address _district, uint8 _threshhold) 
+    Vote(_deadline, _district){
+        threshhold = _threshhold;
+    }
+
+    function recordVote (bool vote) external returns (bool) {
+        verifyVote();
+
+        //make sure the sender has not already voted
+        require(!vote_record[msg.sender]);
 
         //record the sender's vote
         vote_count[vote] = vote_count[vote] + 1;
-
         //record that they have voted
         vote_record[msg.sender] = true;
+
+        // for the sake of MVP, when the vote passes the threshhold, we return true
+        return (vote_count[vote] >= threshhold);
     }
 
-    function hasVoted(address addr_) external view returns (bool) {
+     function hasVoted(address addr_) external view override virtual returns (bool) {
         return vote_record[addr_];
     }
 }
 
+
 contract DistrictManager is IDistrictManager {
-    struct Vote {
+    struct VoteInfo {
         string name;
         string description;
         address proposal;
@@ -67,7 +73,7 @@ contract DistrictManager is IDistrictManager {
     mapping(address=>bool) membership;
     address[] members;
 
-    Vote[] votes;
+    VoteInfo[] votes;
 
     constructor() {}
 
@@ -88,13 +94,11 @@ contract DistrictManager is IDistrictManager {
             members.push(_members[i]);
         }
 
-
-
         // create test proposals
         createProposal("Change website color to blue", 
                        "The background is awful; let's make it better",
                        block.timestamp + 1209600,
-                       0);
+                       1);
         createProposal("Change DAO name Vincent Van Dao", 
                        "People like puns more than they like rhymes",
                        block.timestamp + 1209600,
@@ -104,19 +108,19 @@ contract DistrictManager is IDistrictManager {
     function createProposal(string memory _name, string memory _description, uint _deadline, uint8 _threshhold) internal {
         uint8 threshhold = _threshhold == 0 ? (uint8)(members.length)/2 : _threshhold;
 
-        Vote memory newVote;
+        VoteInfo memory newVote;
         newVote.name = _name;
         newVote.description = _description;
-        newVote.proposal = address(new Proposal(_deadline, threshhold, address(this)));
+        newVote.proposal = address(new Proposal(_deadline, address(this), threshhold));
         votes.push(newVote);
     } 
 
-    function getProposals() external view returns (Vote[] memory){
-        Vote[] memory votes_ = new Vote[](votes.length);
+    function getVotes() external returns (VoteInfo[] memory){
+        VoteInfo[] memory votes_ = new VoteInfo[](votes.length);
         for (uint8 i = 0; i < votes.length; i++) {
-            Vote storage vote_ = votes[i];
+            VoteInfo storage vote_ = votes[i];
             votes_[i] = vote_;
-            votes_[i].hasVoted = ((Proposal)(vote_.proposal)).hasVoted(msg.sender);
+            votes_[i].hasVoted = ((Vote)(vote_.proposal)).hasVoted(msg.sender);
         }
         return votes_;
     }

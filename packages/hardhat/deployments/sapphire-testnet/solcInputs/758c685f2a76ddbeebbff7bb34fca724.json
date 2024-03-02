@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Proposal.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.17;\n\n// So that the Votes can check membership of the sender\n// membership is under the district's jurisdiction\ninterface IDistrictManager {\n    function checkMembership(address _addr) external view returns (bool);\n}\n\nabstract contract Vote {\n    // times are done in uint form as number of seconds since 1-1-1970\n    uint deadline;\n    IDistrictManager district;\n\n    constructor(uint _deadline, address _district) {\n        deadline = _deadline;\n        district = IDistrictManager(_district);\n    }\n\n    function verifyVote() internal view {\n        //make sure the sender is allowed to vote\n        require(district.checkMembership(msg.sender));\n\n        //ensure deadline hasn't passed\n        require(block.timestamp <= deadline);\n    }\n\n    function hasVoted(address addr_) external virtual returns (bool) { }\n}\n\ncontract Proposal is Vote {\n    // how many votes must be in favor for the vote to pass\n    uint8 threshhold;\n    // the record of IF someone has voted. (Not what their vote was)\n    mapping(address => bool) private vote_record;\n    // for the Propsal type of vote, only two options: true (yes) or false (no)\n    mapping(bool => uint8) private vote_count;\n    \n    constructor(uint _deadline, address _district, uint8 _threshhold) \n    Vote(_deadline, _district){\n        threshhold = _threshhold;\n    }\n\n    function recordVote (bool vote) external returns (bool) {\n        verifyVote();\n\n        //make sure the sender has not already voted\n        require(!vote_record[msg.sender]);\n\n        //record the sender's vote\n        vote_count[vote] = vote_count[vote] + 1;\n        //record that they have voted\n        vote_record[msg.sender] = true;\n\n        // for the sake of MVP, when the vote passes the threshhold, we return true\n        return (vote_count[vote] >= threshhold);\n    }\n\n     function hasVoted(address addr_) external view override virtual returns (bool) {\n        return vote_record[addr_];\n    }\n}\n\n\ncontract DistrictManager is IDistrictManager {\n    struct VoteInfo {\n        string name;\n        string description;\n        address proposal;\n        bool hasVoted;\n    }\n\n    mapping(address=>bool) membership;\n    address[] members;\n\n    VoteInfo[] votes;\n\n    constructor() {}\n\n    function restartDemo(address[] memory _members) external {\n        // clear current members of their membership\n        for(uint8 i = 0; i < members.length; i++){\n            membership[members[i]] = false;\n        }\n\n        // clear current members list\n        delete members;\n        // clear existing proposals\n        delete votes;\n\n        // add new members\n        for(uint8 i = 0; i < _members.length; i++){\n            membership[_members[i]] = true;\n            members.push(_members[i]);\n        }\n\n        // create test proposals\n        createProposal(\"Change website color to blue\", \n                       \"The background is awful; let's make it better\",\n                       block.timestamp + 1209600,\n                       1);\n        createProposal(\"Change DAO name Vincent Van Dao\", \n                       \"People like puns more than they like rhymes\",\n                       block.timestamp + 1209600,\n                       0);\n    }\n\n    function createProposal(string memory _name, string memory _description, uint _deadline, uint8 _threshhold) internal {\n        uint8 threshhold = _threshhold == 0 ? (uint8)(members.length)/2 : _threshhold;\n\n        VoteInfo memory newVote;\n        newVote.name = _name;\n        newVote.description = _description;\n        newVote.proposal = address(new Proposal(_deadline, address(this), threshhold));\n        votes.push(newVote);\n    } \n\n    function getVotes() external returns (VoteInfo[] memory){\n        VoteInfo[] memory votes_ = new VoteInfo[](votes.length);\n        for (uint8 i = 0; i < votes.length; i++) {\n            VoteInfo storage vote_ = votes[i];\n            votes_[i] = vote_;\n            votes_[i].hasVoted = ((Vote)(vote_.proposal)).hasVoted(msg.sender);\n        }\n        return votes_;\n    }\n\n    function checkMembership(address _addr) external view returns (bool) {\n        return membership[_addr];\n    }\n\n    function ping() external pure returns (string memory) {\n        return \"hello\";\n    }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
