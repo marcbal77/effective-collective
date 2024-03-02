@@ -1,19 +1,17 @@
-**Effective Collective** is a user-friendly, Web3 solution, for _voicing and voting_ within organizations and governments. Our project is paving a secure path for decentralized democracy by removing the need for antiquated voting systems and representatives whose interests are aligned with deep pockets, instead of real-time desires of their constituents. Put the power of the voice and the vote in YOUR pocket.
+**Effective Collective** is a user-friendly, Web3 solution, for _voicing and voting_ within organizations and governments. Our project is paving a secure path for decentralized democracy by removing the need for antiquated voting systems and representatives whose interests are aligned with deep pockets, instead of the real-time desires of their constituents. Put the power of the voice and the vot-e in YOUR pocket.
 
-The MVP is deployed on the **Oasis Sapphire** blockchain and facilitates voting for small organizations, with first adopters being decentralized autonomous organizations (DAOs). We have integrated **Polygon ID** to securely and privately manage user verification. Future iterations of Effective Collective will facilitate _community discourse_, as well as scaling to _local, state, provincial, and federal governments_.
+The MVP is deployed on the **Oasis Sapphire** blockchain and facilitates voting for small organizations, with first adopters being decentralized autonomous organizations (DAOs). Future iterations of Effective Collective will facilitate _community discourse_, as well as scaling to _local, state, provincial, and federal governments_.
 
 **BOUNTIES**
 
 - [**Oasis Protocol**](https://ethdenver2024.devfolio.co/prizes?partner=Oasis+Protocol)
   - Launch MVP on Testnet or Mainet. Deploy smart-contracts on Oasis Sapphire that use Sapphire specific features as the basis for the project's unique value proposition.
   - Feature Integration. Use the Oasis Privacy Layer to add privacy to a new or existing dApp, to enhance data security and protect users.
-- Best use of [**Polygon ID's**](https://ethdenver2024.devfolio.co/prizes?partner=Polygon) Verifiable Credentials to preserve user privacy.
 
 **TECH STACK & FEATURES**
 
 - [**Oasis Sapphire**](https://github.com/oasisprotocol/sapphire-paratime) blockchain. Fully privacy enabled and Ethereum Virtual Machine (EVM) compatible. Allows for smart contracts with private data (i.e. voting data). End-to-end encryption between the smart contract, dApp, and user. Finality inherent in blockchains.
 - [**Oasis privacy layer**](https://github.com/oasisprotocol/sapphire-paratime) as a message and token bridge that allow any EVM compatible smart contracts on other networks to pass messages and communicate with the Sapphire chain.
-- [**Polygon ID**](https://github.com/0xPolygonID) for verifying user credentials (i.e. DAO membership). Decentralized. Can be used in Web2 or Web3. Sensitive information of the user is concealed from the verifier using zero knowledge proofs. Self-sovereign management of id credentials; the user controls their data.
 - [**Scaffold-ETH**](https://github.com/scaffold-eth/scaffold-eth-2) toolkit for building decentralized applications (dApps) on EVM compatible blockchains. Allows devs to create and deploy smart contracts and build user interfaces that interact with those contracts. Uses NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
 
 **UX/UI FEATURES**
