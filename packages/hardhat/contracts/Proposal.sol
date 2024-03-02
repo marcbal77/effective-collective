@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
+interface IDistrictManager {
+    function checkMembership(address _addr) external view returns (bool);
+}
 // this is set up specifically for yes/no proposals
 // Note: should we have the opportunity/time, it would make a lot of sense to have a parent Proposal contract and then other contract types
 // that inherit from Proposal (they wouldnt be very different from one another, after all)
@@ -16,25 +19,24 @@ contract Proposal {
 
     /* Properties to track votes */
 
-    // the record of IF someone has voted. Not what their vote was (that, actually, does not need to even be recorded)
+    // the record of IF someone has voted. (Not what their vote was)
     mapping(address => bool) vote_record;
 
     // for the yes/no type of vote, only two options: true (yes) or false (no)
-    // other types of votes would likely need names to differentiate (or something else to pass to the callback?)
+    // other types of votes would likely need names to differentiate
     mapping(bool => uint8) vote_count;
 
-    mapping(address=>bool) membership;
+    IDistrictManager district;
 
-    // https://ethereum.stackexchange.com/questions/43751/does-solidity-support-passing-an-array-of-strings-to-a-contracts-constructor-ye
-    constructor(uint _deadline, uint8 _threshhold) {
+    constructor(uint _deadline, uint8 _threshhold, address _district) {
         deadline = _deadline;
         threshhold = _threshhold;
-        membership[0x142Ab00310aaCB3E27bf06c5cB9eEbf6116b0E51] = true;
+        district = IDistrictManager(_district);
     }
 
     function recordVote (bool vote) external {
         //make sure the sender is allowed to vote
-        require(membership[msg.sender]);
+        require(district.checkMembership(msg.sender));
         
         //make sure the sender has not already voted
         require(!vote_record[msg.sender]);
@@ -47,60 +49,83 @@ contract Proposal {
 
         //record that they have voted
         vote_record[msg.sender] = true;
-
-        // TODO: check threshhold and act?
     }
 
-    function hasVoted() external view returns (bool) {
-        return vote_record[msg.sender];
+    function hasVoted(address addr_) external view returns (bool) {
+        return vote_record[addr_];
     }
 }
 
-contract DistrictManager {
+contract DistrictManager is IDistrictManager {
     struct Vote {
         string name;
         string description;
         address proposal;
+        bool hasVoted;
     }
+
+    mapping(address=>bool) membership;
+    address[] members;
 
     Vote[] votes;
 
-    uint8 member_count;
+    constructor() {}
 
-    constructor() {
-       // membership = MemberRecord(_membership);
-       // member_count = membership.getCount();
+    function restartDemo(address[] memory _members) external {
+        // clear current members of their membership
+        for(uint8 i = 0; i < members.length; i++){
+            membership[members[i]] = false;
+        }
 
-        // could make more
-    }
+        // clear current members list
+        delete members;
+        // clear existing proposals
+        delete votes;
 
-    function createTestProposals() external {
+        // add new members
+        for(uint8 i = 0; i < _members.length; i++){
+            membership[_members[i]] = true;
+            members.push(_members[i]);
+        }
+
+
+
+        // create test proposals
         createProposal("Change website color to blue", 
                        "The background is awful; let's make it better",
                        block.timestamp + 1209600,
                        0);
+        createProposal("Change DAO name Vincent Van Dao", 
+                       "People like puns more than they like rhymes",
+                       block.timestamp + 1209600,
+                       0);
     }
 
-    function createProposal (string memory _name, string memory _description, uint _deadline, uint8 _threshhold) internal {
-        uint8 threshhold = _threshhold == 0 ? member_count/2 : _threshhold;
+    function createProposal(string memory _name, string memory _description, uint _deadline, uint8 _threshhold) internal {
+        uint8 threshhold = _threshhold == 0 ? (uint8)(members.length)/2 : _threshhold;
 
         Vote memory newVote;
         newVote.name = _name;
         newVote.description = _description;
-        newVote.proposal = address(new Proposal(_deadline, threshhold));
+        newVote.proposal = address(new Proposal(_deadline, threshhold, address(this)));
         votes.push(newVote);
     } 
 
-    function getVotes() external view returns (Vote[] memory){
+    function getProposals() external view returns (Vote[] memory){
         Vote[] memory votes_ = new Vote[](votes.length);
         for (uint8 i = 0; i < votes.length; i++) {
             Vote storage vote_ = votes[i];
             votes_[i] = vote_;
+            votes_[i].hasVoted = ((Proposal)(vote_.proposal)).hasVoted(msg.sender);
         }
-      return votes_;
+        return votes_;
     }
 
-    function ping() external view returns (string memory) {
+    function checkMembership(address _addr) external view returns (bool) {
+        return membership[_addr];
+    }
+
+    function ping() external pure returns (string memory) {
         return "hello";
     }
 }

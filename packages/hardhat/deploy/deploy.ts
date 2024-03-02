@@ -3,35 +3,40 @@ import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
 /**
- * Deploys a contract named "YourContract" using the deployer account and
- * constructor arguments set to the deployer address
+ * Restarts the demo run through the DistrictManager contract
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
 const deployDistrictManager: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  /*
-    On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
 
-    When deploying to live networks (e.g `yarn deploy --network goerli`), the deployer account
-    should have sufficient balance to pay for the gas fees for contract creation.
+  const redeploying = false;
+  const memberAddresses = [
+    "0xFcc8bAe83d38fD2BF0933a16D6a2c68FF4BFc0bd",
+    "0x142Ab00310aaCB3E27bf06c5cB9eEbf6116b0E51",
+    "0x854376e6D7A90FB712eE007F68B74a2C5878710E",
+    "0x2cB11E4250A2AFC3018B74a9Ce618666ec1D56ff"
+  ]
 
-    You can generate a random account with `yarn generate` which will fill DEPLOYER_PRIVATE_KEY
-    with a random private key in the .env file (then used on hardhat.config.ts)
-    You can run the `yarn account` command to check your balance in every network.
-  */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const maybe = await deploy("DistrictManager", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [],
-    log: true,
-  });
-  console.log(maybe);
-  // Get the deployed contract to interact with it after deploying.
-  const yourContract = await hre.ethers.getContract<Contract>("DistrictManager", deployer);
-  console.log("👋 Initial greeting:", await yourContract.ping());
+    if (redeploying) {
+        const maybe = await deploy("DistrictManager", {
+            from: deployer,
+            // Contract constructor arguments
+            args: [],
+            log: true,
+        });
+        console.log(maybe);
+    }
+    else {
+        // Get the deployed contract to interact with it after deploying.
+        const districtManager = await hre.ethers.getContract<Contract>("DistrictManager", deployer);
+        await districtManager.restartDemo(memberAddresses);
+        console.log("Demo ready!", await districtManager.getProposals());
+    }
+
+
 };
 
 export default deployDistrictManager;
