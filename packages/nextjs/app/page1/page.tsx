@@ -1,6 +1,7 @@
 "use client";
 
 import NavigationButton from "~~/components/NavigationButton";
+import Votes from "~~/components/VotingDisplay"
 
 const Page1 = () => {
   return (
@@ -23,6 +24,7 @@ const Page1 = () => {
               >
                 Increasing property taxes for schools
               </button>
+              <Votes/>
             </div>
           </div>
         </div>

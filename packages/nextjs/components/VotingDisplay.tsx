@@ -29,7 +29,6 @@ function Votes() {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData(); // Trigger the asynchronous function
   }, []); // Empty dependency array ensures this effect runs only once
 

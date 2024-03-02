@@ -24,7 +24,6 @@ const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
   return (
-    <>
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="px-5">
           <h1 className="text-center">
@@ -36,32 +35,30 @@ const Home: NextPage = () => {
             <Address address={connectedAddress} />
           </div>
         </div>
-        {connectedAddress && (
-          <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-            <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-              <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-                <div className="text-gray-700 flex flex-col gap-4">
-                  <button
-                    className="btn btn-secondary btn-sm px-2 rounded-full"
-                    onClick={() => console.log("Federal button clicked")}
-                  >
-                    Federal
-                  </button>
-                  <NavigationButton destination="/page1" label="State" />
-                  <button
-                    className="btn btn-secondary btn-sm px-2 rounded-full"
-                    onClick={() => console.log("Local/DAO button clicked")}
-                  >
-                    Local/DAO
-                  </button>
-                  <Votes />
-                </div>
+      {connectedAddress &&
+       <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
+            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
+              <div className="text-gray-700 flex flex-col gap-4">
+                <button
+                  className="btn btn-secondary btn-sm px-2 rounded-full"
+                  onClick={() => console.log("Federal button clicked")}
+                >
+                  Federal
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm px-2 rounded-full"
+                  onClick={() => console.log("State button clicked")}
+                >
+                  State
+                </button>
+                <NavigationButton destination="/page1" label="Local/DAO" />
               </div>
             </div>
           </div>
-        )}
       </div>
-    </>
+}
+    </div>
   );
 };
 
